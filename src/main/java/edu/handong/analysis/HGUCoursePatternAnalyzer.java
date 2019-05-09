@@ -56,18 +56,17 @@ public class HGUCoursePatternAnalyzer {
 	private Student[] initiateStudentArrayFromLines(String[] lines) {
 		int count=0;
 		String n;
-		Student initStudents;
-		Student [] initStudent=new Student[numOfStudents];
+		Student initStudent;
+		Student [] initStudents=new Student[numOfStudents];
 		for(int i=0;(i<lines.length)&&count<numOfStudents;i++) {
 			n=lines[i].split(",")[1];
-			initStudents=new Student(n.trim());
-			if(studentExist(initStudent,initStudents)) {
-				initStudent[count]=initStudents;
+			initStudent=new Student(n.trim());
+			if(studentExist(initStudents,initStudent)) {
+				initStudents[count]=initStudent;
 				count++;
 			}
 		}
-			
-		return initStudent;
+		return initStudents;
 	}
 	
 
@@ -79,14 +78,17 @@ public class HGUCoursePatternAnalyzer {
 	 */
 	private boolean studentExist(Student[] students, Student student) { 
 		for(int count=0;count<students.length;count++) {
-			if(null==students[count]) {
+			if(null==students[0]) {
 				return true;	
 			}
-			else if(student.getName()==students[count].getName()){
-				return true;
+			else if(null==students[count]) {
+				continue;	
+			}
+			else if(student.getName().equals(students[count].getName())){
+				return false;
 			}
 		}
-		return false;
+		return true;
 	}
 	
 	/**
@@ -97,17 +99,17 @@ public class HGUCoursePatternAnalyzer {
 	private Course[] initiateCourseArrayFromLines(String[] lines) {
 		int count=0;
 		String n;
-		Course initCourses;
-		Course [] initCourse=new Course[numOfCourses];
+		Course initCourse;
+		Course [] initCourses=new Course[numOfCourses];
 		for(int i=0;(i<lines.length)&&count<numOfCourses;i++) {
 			n=lines[i].split(",")[2];
-			initCourses=new Course(n.trim());
-			if(courseExist(initCourse,initCourses)) {
-				initCourse[count]=initCourses;
+			initCourse=new Course(n.trim());
+			if(courseExist(initCourses,initCourse)) {
+				initCourses[count]=initCourse;
 				count++;
 			}
 		}
-		return initCourse;
+		return initCourses;
 	}
 	/**
 	 * This method check if there is the same name of the second argument in the array, courses.
@@ -117,13 +119,16 @@ public class HGUCoursePatternAnalyzer {
 	 */
 	private boolean courseExist(Course[] courses, Course course) {
 		for(int count=0;count<courses.length;count++) {
-			if(null==courses[count]) {
+			if(null==courses[0]) {
 				return true;	
 			}
-			else if(course.getCourseName()==courses[count].getCourseName()){
-				return true;
+			else if(null==courses[count]) {
+				continue;	
+			}
+			else if(course.getCourseName().equals(courses[count].getCourseName())){
+				return false;
 			}
 		}
-		return false;
+		return true;
 	}
 }
